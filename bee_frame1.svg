@@ -1,0 +1,16 @@
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Bee Frame 1: Wings Up -->
+  <!-- Body -->
+  <ellipse cx="50" cy="50" rx="20" ry="30" fill="yellow" stroke="black" stroke-width="2"/>
+  <!-- Stripes -->
+  <rect x="40" y="35" width="20" height="10" fill="black"/>
+  <rect x="40" y="50" width="20" height="10" fill="black"/>
+  <!-- Head -->
+  <circle cx="50" cy="30" r="10" fill="yellow" stroke="black" stroke-width="2"/>
+  <!-- Eyes -->
+  <circle cx="46" cy="28" r="2" fill="black"/>
+  <circle cx="54" cy="28" r="2" fill="black"/>
+  <!-- Wings Up -->
+  <ellipse cx="35" cy="35" rx="15" ry="8" fill="white" fill-opacity="0.7" transform="rotate(-45 35 35)"/>
+  <ellipse cx="65" cy="35" rx="15" ry="8" fill="white" fill-opacity="0.7" transform="rotate(45 65 35)"/>
+</svg>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dizi - משחק הצבעים</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="logo.jpg" type="image/x-icon">
+</head>
+<body>
+    <div id="login-screen" class="login-screen">
+        <div class="login-box">
+            <h1>ברוכים הבאים למשחק Dizi!</h1>
+            <p>הזן שם משתמש והתחל את ההרפתקה</p>
+            <input type="text" id="username" placeholder="הכנס שם משתמש">
+            <button id="start-game">התחל משחק</button>
+        </div>
+    </div>
+    <div id="game-container" style="display: none;">
+        <div id="score">
+            שם משתמש: <span id="username-display"></span> | ניקוד: <span id="score-value">0</span> | 
+            טעויות: <span id="mistakes">0</span> | 
+            שלב: <span id="current-level">1</span> / 3 | 
+            זמן: <span id="time-left">8</span> שניות
+        </div>
+        <div id="bee">
+            <img id="bee-image" src="bee_frame1.svg" alt="דבורה">
+            <div id="speech-bubble" class="speech-bubble"></div>
+        </div>
+        <div id="color-buttons">
+            <div class="color-row" id="top-row"></div>
+            <div class="color-row" id="bottom-row"></div>
+        </div>
+        <div id="feedback"></div>
+    </div>
+    <div id="game-over" class="game-over">
+        <div id="game-over-text"></div>
+        <canvas id="confetti-canvas"></canvas>
+        <button id="next-level-button" style="display: none;">עבור לשלב הבא</button>
+        <button id="restart-button">שחק שוב</button>
+    </div>
+    <audio id="color-audio"></audio>
+    <audio id="feedback-audio"></audio>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
