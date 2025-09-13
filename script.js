@@ -35,6 +35,7 @@ const gameOverScreen = document.getElementById('game-over');
 const gameOverText = document.getElementById('game-over-text');
 const restartButton = document.getElementById('restart-button');
 const nextLevelButton = document.getElementById('next-level-button');
+const homeButton = document.getElementById('home-button');
 const loginScreen = document.getElementById('login-screen');
 const gameContainer = document.getElementById('game-container');
 const usernameInput = document.getElementById('username');
@@ -64,12 +65,15 @@ function startNextLevel() {
             spread: 70,
             origin: { y: 0.6 }
         });
+        nextLevelButton.style.display = 'none';
+        restartButton.style.display = 'block';
+        homeButton.style.display = 'block';
         return;
     }
     currentLevel++;
     score = 0;
     mistakeCount = 0;
-    timeLimit = 8000 - (currentLevel - 1) * 1500; // זמן קצר יותר בכל שלב
+    timeLimit = 8000 - (currentLevel - 1) * 1500;
     scoreValue.textContent = score;
     mistakes.textContent = mistakeCount;
     level.textContent = `${currentLevel} / ${colorsByLevel.length}`;
@@ -84,7 +88,7 @@ function updateColorButtons() {
     const bottomRow = document.getElementById('bottom-row');
     topRow.innerHTML = '';
     bottomRow.innerHTML = '';
-    buttons = []; // איפוס מערך הכפתורים
+    buttons = [];
 
     currentColors.forEach((color, index) => {
         const button = document.createElement('button');
@@ -96,37 +100,38 @@ function updateColorButtons() {
         } else {
             bottomRow.appendChild(button);
         }
-        buttons.push(button); // הוספת הכפתור למערך
+        buttons.push(button);
     });
 
-    // הוספת אירועים לכפתורים החדשים
     buttons.forEach(button => {
-        button.addEventListener('click', () => {
-            if (!gameActive) return;
-            const selectedColor = button.getAttribute('data-color');
-            if (selectedColor === correctColor) {
-                score++;
-                scoreValue.textContent = score;
-                feedback.textContent = 'נכון! כל הכבוד!';
-                speechBubble.style.display = 'none';
-                clearInterval(timerInterval);
-                feedbackAudio.src = 'correct.mp3';
-                feedbackAudio.play().catch(() => {});
-                if (score < 5) {
-                    setTimeout(startNewRound, 1000);
-                } else {
-                    checkGameOver();
-                }
-            } else {
-                mistakeCount++;
-                mistakes.textContent = mistakeCount;
-                feedback.textContent = 'טעות! נסה שוב.';
-                feedbackAudio.src = 'wrong.mp3';
-                feedbackAudio.play().catch(() => {});
-                checkGameOver();
-            }
-        });
+        button.addEventListener('click', handleButtonClick);
     });
+}
+
+function handleButtonClick() {
+    if (!gameActive) return;
+    const selectedColor = this.getAttribute('data-color');
+    if (selectedColor === correctColor) {
+        score++;
+        scoreValue.textContent = score;
+        feedback.textContent = 'נכון! כל הכבוד!';
+        speechBubble.style.display = 'none';
+        clearInterval(timerInterval);
+        feedbackAudio.src = 'correct.mp3';
+        feedbackAudio.play().catch(() => {});
+        if (score < 5) {
+            setTimeout(startNewRound, 1000);
+        } else {
+            checkGameOver();
+        }
+    } else {
+        mistakeCount++;
+        mistakes.textContent = mistakeCount;
+        feedback.textContent = 'טעות! נסה שוב.';
+        feedbackAudio.src = 'wrong.mp3';
+        feedbackAudio.play().catch(() => {});
+        checkGameOver();
+    }
 }
 
 function startNewRound() {
@@ -161,28 +166,40 @@ function checkGameOver() {
         gameActive = false;
         clearInterval(timerInterval);
         gameOverScreen.style.display = 'flex';
-        gameOverText.textContent = `${username}, עברת את השלב ${currentLevel}! כל הכבוד!`;
-        feedbackAudio.src = 'correct.mp3';
-        feedbackAudio.play().catch(() => {});
-        confetti({
-            particleCount: 100,
-            spread: 70,
-            origin: { y: 0.6 }
-        });
         if (currentLevel < colorsByLevel.length) {
+            gameOverText.textContent = `${username}, עברת את השלב ${currentLevel}! כל הכבוד!`;
+            feedbackAudio.src = 'win.mp3';
+            feedbackAudio.play().catch(() => {});
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
             nextLevelButton.style.display = 'block';
             restartButton.style.display = 'none';
+            homeButton.style.display = 'none';
         } else {
+            gameOverText.textContent = `${username}, סיימת את כל השלבים! כל הכבוד!`;
+            feedbackAudio.src = 'win.mp3';
+            feedbackAudio.play().catch(() => {});
+            confetti({
+                particleCount: 200,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
             nextLevelButton.style.display = 'none';
+            restartButton.style.display = 'block';
+            homeButton.style.display = 'block';
         }
     } else if (mistakeCount >= 3) {
         gameActive = false;
         clearInterval(timerInterval);
         gameOverScreen.style.display = 'flex';
         gameOverText.textContent = `${username}, הפסדת בשלב ${currentLevel}! נסה שוב!`;
-        feedbackAudio.src = 'wrong.mp3';
+        feedbackAudio.src = 'lost.mp3';
         feedbackAudio.play().catch(() => {});
         nextLevelButton.style.display = 'none';
+        homeButton.style.display = 'none';
     }
 }
 
@@ -192,6 +209,20 @@ nextLevelButton.addEventListener('click', () => {
 });
 
 restartButton.addEventListener('click', () => {
+    score = 0;
+    mistakeCount = 0;
+    currentLevel = 0;
+    scoreValue.textContent = score;
+    mistakes.textContent = mistakeCount;
+    level.textContent = currentLevel;
+    gameOverScreen.style.display = 'none';
+    gameContainer.style.display = 'none';
+    loginScreen.style.display = 'flex';
+    usernameInput.value = '';
+    gameActive = false;
+});
+
+homeButton.addEventListener('click', () => {
     score = 0;
     mistakeCount = 0;
     currentLevel = 0;
