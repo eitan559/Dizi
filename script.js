@@ -223,15 +223,5 @@ restartButton.addEventListener('click', () => {
 });
 
 homeButton.addEventListener('click', () => {
-    score = 0;
-    mistakeCount = 0;
-    currentLevel = 0;
-    scoreValue.textContent = score;
-    mistakes.textContent = mistakeCount;
-    level.textContent = currentLevel;
-    gameOverScreen.style.display = 'none';
-    gameContainer.style.display = 'none';
-    loginScreen.style.display = 'flex';
-    usernameInput.value = '';
-    gameActive = false;
+    window.location.href = 'main_index.html'; // חזרה לדף המשחקים הראשי
 });
