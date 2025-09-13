@@ -223,5 +223,6 @@ restartButton.addEventListener('click', () => {
 });
 
 homeButton.addEventListener('click', () => {
-    window.location.href = 'main_index.html'; // חזרה לדף המשחקים הראשי
+    window.location.href = 'https://eitan559.github.io/Dizi-home/'; // חזרה לדף המשחקים הראשי
 });
+
